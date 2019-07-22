@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>java vstr 13</title>
+	<style>
+		.stan_brid {
+			height: 100vh;
+			background-image: url('img/pole.jpg');
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+		}
+		.ball {
+			width: 80px;
+			height: 80px;
+		}
+		.apple {
+			width: 80px;
+			height: 80px;
+		}
+		.hat {
+			width: 100px;
+			height: 100px;
+		}
+		.harlamenko {
+			position: absolute;
+			top: 200px;
+			left: 200px;
+			background-repeat: no-repeat;
+		}
+
+	</style>
+</head>
+
+<body>
+	<div class="stan_brid">
+		<div class="harlamenko"> 
+			<img src='img/image014.png'>
+			<img src="img/image009.png">
+		</div>
+		
+		<img class="ball" src="img/soccer_ball.png">
+		<img class="apple" src="img/apple.png">
+		<img class="hat" src='img/hat_PNG5718.png'>
+		<img class="hat" src='img/shlap134.png'>
+
+	</div>
+</body>
+
+	<script>
+		let ball = document.querySelector('.ball');
+		let stan_brid = document.querySelector('.stan_brid');
+			ball.onload = () => {
+				//1 отслеживаем нажатие
+				ball.addEventListener('mousedown', ()=>{
+					//2 перемещение по экрану
+					let coords = ball.getBoundingClientRect();
+					let shiftX = event.pageX - coords.left;
+					let shiftY = event.pageY - coords.top;
+
+					ball.style.position = 'absolute';
+					moveAt(event, shiftX, shiftY);
+					//3 перемещение по экрану
+					stan_brid.onmousemove = () => {
+						moveAt(event, shiftX, shiftY);
+					}
+					//4 окончание переноса
+					ball.onmouseup = () => {
+						stan_brid.onmousemove = null;
+						ball.onmouseup = null;
+					}
+			});
+
+			function moveAt(e, shiftX, shiftY) {
+				ball.style.top = (e.pageY - shiftY) + 'px';
+				ball.style.left = (e.pageX - shiftX) + 'px';
+			}
+			ball.ondragstart = () => {return false};
+		}
+
+
+
+		// let hat = document.querySelector('.hat');
+		// hat.onload = () => {
+		// 		//1 отслеживаем нажатие
+		// 		hat.addEventListener('mousedown', ()=>{
+		// 			//2 перемещение по экрану
+		// 			let coords = hat.getBoundingClientRect();
+		// 			let shiftX = event.pageX - coords.left;
+		// 			let shiftY = event.pageY - coords.top;
+
+		// 			hat.style.position = 'absolute';
+		// 			moveAt(event, shiftX, shiftY);
+		// 			//3 перемещение по экрану
+		// 			stan_brid.onmousemove = () => {
+		// 				moveAt(event, shiftX, shiftY);
+		// 			}
+		// 			//4 окончание переноса
+		// 			hat.onmouseup = () => {
+		// 				stan_brid.onmousemove = null;
+		// 				hat.onmouseup = null;
+		// 			}
+		// 	});
+
+		// 	function moveAt(e, shiftX, shiftY) {
+		// 		hat.style.top = (e.pageY - shiftY) + 'px';
+		// 		hat.style.left = (e.pageX - shiftX) + 'px';
+		// 	}
+		// 	hat.ondragstart = () => {return false};
+		// }
+
+		function hat_mousedown(){
+			//2 перемещение по экрану
+			let coords = event.target.getBoundingClientRect();
+			let shiftX = event.pageX - coords.left;
+			let shiftY = event.pageY - coords.top;
+
+			event.target.style.position = 'absolute';
+			moveAt(event, shiftX, shiftY);
+			//3 перемещение по экрану
+			stan_brid.onmousemove = () => {
+				moveAt(event, shiftX, shiftY);
+			}
+			//4 окончание переноса
+			event.target.onmouseup = () => {
+				stan_brid.onmousemove = null;
+				for (let hat of hats) {
+					hat.onmouseup = null;
+				}
+				for (let apple of apples) {
+					apple.onmouseup = null;
+				}		
+			}
+		}
+
+		let hats = document.querySelectorAll('.hat');
+		//1 отслеживаем нажатие
+		for (let hat of hats) {
+			hat.addEventListener('mousedown', hat_mousedown);
+		}
+			
+		function moveAt(e, shiftX, shiftY) {
+			e.target.style.top = (e.pageY - shiftY) + 'px';
+			e.target.style.left = (e.pageX - shiftX) + 'px';
+		}
+
+		for (let hat of hats) {
+			hat.ondragstart = () => {return false};
+		}
+		
+		
+		let apples = document.querySelectorAll('.apple');
+		for (let apple of apples) {
+			apple.addEventListener('mousedown', hat_mousedown);
+		}
+		for (let apple of apples) {
+			apple.ondragstart = () => {return false};
+		}
+
+
+
+
+	</script>
+</html>
